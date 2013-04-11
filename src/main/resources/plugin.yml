@@ -1,0 +1,18 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: ${project.organization.name}
+website: ${project.organization.url}
+
+main: ${mainClass}
+depend: [Spout, Vault]
+load: POSTWORLD
+
+permissions:
+  forcetool.*:
+    description: Gives access to all ForceTool permissions.
+    children:
+        forcetool.ignore: true            
+  forcetool.ignore:
+    description: Allows user to override ForceTool rules.
+    default: false
