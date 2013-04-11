@@ -23,19 +23,16 @@ import java.io.File;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ForceToolsPlugin extends JavaPlugin implements Listener {
 
 	public void onEnable() {			
-		PluginManager pm = this.getServer().getPluginManager();
-		getServer().getPluginManager().registerEvents(this, this);		
-		FileConfiguration config = this.getConfig();
+		getServer().getPluginManager().registerEvents(this, this);
 
         // Read in default config.yml
         if (!new File(this.getDataFolder(), "config.yml").exists()) {
@@ -45,10 +42,12 @@ public class ForceToolsPlugin extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void blockBreak(BlockBreakEvent event) {
-		if (event.isCancelled()  || event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+		if (event.isCancelled() || event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			return;
-		}		
-		if (!event.getPlayer().hasPermission("ForceTool.ignore")) {				
+		}
+        Player player = event.getPlayer();
+
+		if (!VaultUtil.hasPermission(player.getName(), player.getWorld().getName(), "forcetools.ignore")) {
 			if (getConfig().contains("forcetool." + event.getBlock().getTypeId())) {
 				String raw = getConfig().getString("forcetool." + event.getBlock().getTypeId());
 				String[] split = raw.split(",");
