@@ -1,4 +1,4 @@
-CloudHeight
+ForceTool
 =======
 
-CloudHeight allows you to specify how high clouds should appear for Spoutcraft users.
+Allows administrators to force tool usage based on how they want it.
